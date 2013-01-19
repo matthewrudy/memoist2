@@ -3,43 +3,56 @@ require File.expand_path('../../lib/memoist2', __FILE__)
 class Foo
   extend Memoist2
 
-  def bar
-    #puts "bar called"
-    #"bar #{Time.now}"
-    1
+  def string
+    "string"
   end
-  memoize :bar
 
-  def bar2
-    puts "bar2 called"
-    "bar2 #{Time.now}"
+  def string_memoized
+    "string"
   end
-  memoize :bar2
+  memoize :string_memoized
 
-  def unbar
-    #puts "unbar called"
-    #"unbar #{Time.now}"
-    1
+  def fixnum
+    42
   end
+
+  def fixnum_memoized
+    42
+  end
+  memoize :fixnum_memoized
 end
 
 require 'benchmark'
 
-TIMES = 100_000_000
+TIMES = 10_000_000
 
 Benchmark.bmbm do |x|
 
-  x.report "unmemoized" do
+  x.report "string - memoized" do
     foo = Foo.new
     TIMES.times do
-      foo.unbar
+      foo.string_memoized
     end
   end
 
-  x.report "memoized" do
+  x.report "string - unmemoized" do
     foo = Foo.new
     TIMES.times do
-      foo.bar
+      foo.string
+    end
+  end
+
+  x.report "fixnum - memoized" do
+    foo = Foo.new
+    TIMES.times do
+      foo.fixnum_memoized
+    end
+  end
+
+  x.report "fixnum - unmemoized" do
+    foo = Foo.new
+    TIMES.times do
+      foo.fixnum
     end
   end
 end
