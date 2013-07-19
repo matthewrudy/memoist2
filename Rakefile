@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
 
   # Basic details
   s.name              = "memoist2"
-  s.version           = "0.1.2"
+  s.version           = "0.2.0"
   s.summary           = "Really simple memoization for ruby 2.0"
   s.author            = "Matthew Rudy Jacobs"
   s.email             = "MatthewRudyJacobs@gmail.com"
