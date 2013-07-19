@@ -1,6 +1,8 @@
 memoist2
 ========
 
+[![Build Status](https://travis-ci.org/matthewrudy/memoist2.png?branch=master)](https://travis-ci.org/matthewrudy/memoist2)
+
 Simple Memoization for Ruby 2.0
 
 Example
