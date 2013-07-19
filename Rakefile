@@ -15,11 +15,12 @@ spec = Gem::Specification.new do |s|
 
   # Basic details
   s.name              = "memoist2"
-  s.version           = "0.1.1"
+  s.version           = "0.1.2"
   s.summary           = "Really simple memoization for ruby 2.0"
   s.author            = "Matthew Rudy Jacobs"
   s.email             = "MatthewRudyJacobs@gmail.com"
   s.homepage          = "https://github.com/matthewrudy/memoist2"
+  s.license           = "MIT"
 
   s.has_rdoc          = true
   s.extra_rdoc_files  = %w(README.md)

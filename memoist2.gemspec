@@ -2,15 +2,16 @@
 
 Gem::Specification.new do |s|
   s.name = "memoist2"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matthew Rudy Jacobs"]
   s.date = "2013-07-19"
   s.email = "MatthewRudyJacobs@gmail.com"
   s.extra_rdoc_files = ["README.md"]
-  s.files = [".gitignore", ".rspec", ".ruby-version", ".travis.yml", "Gemfile", "README.md", "Rakefile", "example/foo.rb", "lib/memoist2.rb", "memoist2.gemspec", "spec/memoist2_spec.rb", "spec/spec_helper.rb"]
+  s.files = [".gitignore", ".rspec", ".ruby-version", ".travis.yml", "Gemfile", "LICENCE", "README.md", "Rakefile", "benchmark.rb", "example/foo.rb", "lib/memoist2.rb", "memoist2.gemspec", "spec/memoist2_spec.rb", "spec/spec_helper.rb"]
   s.homepage = "https://github.com/matthewrudy/memoist2"
+  s.licenses = ["MIT"]
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
   s.required_ruby_version = Gem::Requirement.new(">= 2.0.0")
