@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
 
   # Basic details
   s.name              = "memoist2"
-  s.version           = "0.1.0"
+  s.version           = "0.1.1"
   s.summary           = "Really simple memoization for ruby 2.0"
   s.author            = "Matthew Rudy Jacobs"
   s.email             = "MatthewRudyJacobs@gmail.com"
@@ -24,6 +24,9 @@ spec = Gem::Specification.new do |s|
   s.has_rdoc          = true
   s.extra_rdoc_files  = %w(README.md)
   s.rdoc_options      = %w(--main README.md)
+
+  # Only works with Ruby 2
+  s.required_ruby_version = '>= 2.0.0'
 
   # Add any extra files to include in the gem
   s.files             = `git ls-files`.split
