@@ -64,6 +64,27 @@ describe Memoist2 do
         5.times{ subject.foo }
       end.to change{ subject.counter }.by(1)
     end
+
+    it "can memoize multiple methods simultaneously" do
+      subject = Class.new(Counter) do
+        include Memoist2
+
+        def a
+          count! && :a
+        end
+
+        def b
+          count! && :b
+        end
+
+        memoize :a, :b
+      end.new
+
+      5.times{ subject.a }
+      5.times{ subject.b }
+
+      subject.counter.should == 2
+    end
   end
 
   describe "class methods" do

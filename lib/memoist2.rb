@@ -6,25 +6,27 @@ module Memoist2
 
   module ClassMethods
 
-    def memoize(method_name)
-      memoized_ivar = Memoist2.memoized_ivar_for(method_name)
-      memoized_module = Module.new do
-        module_eval <<-EVAL
-          def #{method_name}
-            unless #{memoized_ivar}
-              #{memoized_ivar} = [super]
+    def memoize(*method_names)
+      method_names.each do |method_name|
+        memoized_ivar = Memoist2.memoized_ivar_for(method_name)
+        memoized_module = Module.new do
+          module_eval <<-EVAL
+            def #{method_name}
+              unless #{memoized_ivar}
+                #{memoized_ivar} = [super]
+              end
+              #{memoized_ivar}[0]
             end
-            #{memoized_ivar}[0]
-          end
-        EVAL
+          EVAL
+        end
+        prepend memoized_module
       end
-      prepend memoized_module
     end
 
-    def memoize_class_method(method_name)
+    def memoize_class_method(*method_names)
       singleton_class.class_eval do
         include Memoist2 unless ancestors.include?(Memoist2)
-        memoize method_name
+        memoize *method_names
       end
     end
 
