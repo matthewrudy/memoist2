@@ -67,26 +67,47 @@ describe Memoist2 do
   end
 
   describe "class methods" do
-    subject do
-      Class.new do
-        class << self
-          include Memoist2
+    describe "using metaclass" do
+      subject do
+        Class.new do
+          class << self
+            include Memoist2
 
-          def foo
-            @counter ||= 0
-            @counter += 1
+            def foo
+              @counter ||= 0
+              @counter += 1
+            end
+            memoize :foo
           end
-          memoize :foo
+        end
+      end
+
+      it "works" do
+        5.times do
+          subject.foo.should == 1
         end
       end
     end
 
-    it "can be memoized" do
-      5.times do
-        subject.foo.should == 1
+    describe "using memoize_class_method" do
+      subject do
+        Class.new do
+          include Memoist2
+
+          def self.foo
+            @counter ||= 0
+            @counter += 1
+          end
+          memoize_class_method :foo
+        end
+      end
+
+      it "works" do
+        5.times do
+          subject.foo.should == 1
+        end
       end
     end
-
   end
 
   describe "punctuated methods" do

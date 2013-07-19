@@ -22,14 +22,12 @@ Memoize an instance method
 Memoize a class method
 
   class Foo
-    class << self
-      include Memoist2
+    include Memoist2
 
-      def bar
-        # something expensive
-      end
-      memoize :bar
+    def self.bar
+      # something expensive
     end
+    memoize_class_method :bar
   end
 
 Licence

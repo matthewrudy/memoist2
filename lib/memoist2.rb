@@ -21,6 +21,13 @@ module Memoist2
       prepend memoized_module
     end
 
+    def memoize_class_method(method_name)
+      singleton_class.class_eval do
+        include Memoist2 unless ancestors.include?(Memoist2)
+        memoize method_name
+      end
+    end
+
   end
 
   def self.included(klass)
