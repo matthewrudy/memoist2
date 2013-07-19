@@ -17,6 +17,11 @@ module Memoist2
               end
               #{memoized_ivar}[0]
             end
+
+            def self.to_s
+              "Memoist2::MemoizedMethod(#{method_name})"
+            end
+            def self.inspect; to_s; end
           EVAL
         end
         prepend memoized_module
@@ -29,7 +34,6 @@ module Memoist2
         memoize *method_names
       end
     end
-
   end
 
   def self.included(klass)
