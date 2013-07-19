@@ -5,10 +5,21 @@ describe Memoist2 do
   class Foo
     extend Memoist2
 
+    def initialize
+      @counter = 0
+    end
+    attr_accessor :counter
+
     def bar
       count!
     end
     memoize :bar
+
+    def memoized_nil
+      count!
+      nil
+    end
+    memoize :memoized_nil
 
     def question?
       count!
@@ -23,8 +34,7 @@ describe Memoist2 do
     private
 
     def count!
-      @count ||= 0
-      @count += 1
+      self.counter += 1
     end
 
     class << self
@@ -35,6 +45,23 @@ describe Memoist2 do
         @bar_count += 1
       end
       memoize :bar
+    end
+  end
+
+  subject{ Foo.new }
+
+  describe "nil values" do
+
+    it "returns nil" do
+      subject.memoized_nil.should be_nil
+    end
+
+    it "only calls the code once" do
+      subject.memoized_nil
+
+      expect do
+        5.times{ subject.memoized_nil }
+      end.to_not change{ subject.counter }
     end
   end
 
