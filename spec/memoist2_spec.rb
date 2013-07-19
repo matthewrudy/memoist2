@@ -2,94 +2,123 @@ require 'memoist2'
 
 describe Memoist2 do
 
-  class Foo
-    include Memoist2
-
+  # used as base class for examples
+  class Counter
     def initialize
       @counter = 0
     end
-    attr_accessor :counter
-
-    def bar
-      count!
-    end
-    memoize :bar
-
-    def memoized_nil
-      count!
-      nil
-    end
-    memoize :memoized_nil
-
-    def question?
-      count!
-    end
-    memoize :question?
-
-    def bang!
-      count!
-    end
-    memoize :bang!
-
-    private
+    attr_reader :counter
 
     def count!
-      self.counter += 1
-    end
-
-    class << self
-      include Memoist2
-
-      def bar
-        @bar_count ||= 0
-        @bar_count += 1
-      end
-      memoize :bar
+      @counter += 1
     end
   end
 
-  subject{ Foo.new }
-
   describe "nil values" do
+    subject do
+      Class.new(Counter) do
+        include Memoist2
 
-    it "returns nil" do
-      subject.memoized_nil.should be_nil
+        def nilly
+          count!
+          nil
+        end
+        memoize :nilly
+      end.new
     end
 
-    it "only calls the code once" do
-      subject.memoized_nil
+    it "returns the expected value" do
+      5.times do
+        subject.nilly.should == nil
+      end
+    end
 
+    it "memoizes correctly" do
       expect do
-        5.times{ subject.memoized_nil }
-      end.to_not change{ subject.counter }
+        5.times{ subject.nilly }
+      end.to change{ subject.counter }.by(1)
     end
   end
 
   describe "instance methods" do
-    subject{ Foo.new }
+    subject do
+      Class.new(Counter) do
+        include Memoist2
 
-    it "can be memoized" do
-      subject.bar.should == subject.bar
+        def foo
+          count!
+          :bar
+        end
+        memoize :foo
+      end.new
+    end
+
+    it "returns the expected value" do
+      5.times do
+        subject.foo.should == :bar
+      end
+    end
+
+    it "memoizes correctly" do
+      expect do
+        5.times{ subject.foo }
+      end.to change{ subject.counter }.by(1)
     end
   end
 
   describe "class methods" do
-    subject{ Foo }
+    subject do
+      Class.new do
+        class << self
+          include Memoist2
+
+          def foo
+            @counter ||= 0
+            @counter += 1
+          end
+          memoize :foo
+        end
+      end
+    end
 
     it "can be memoized" do
-      subject.bar.should == subject.bar
+      5.times do
+        subject.foo.should == 1
+      end
     end
+
   end
 
   describe "punctuated methods" do
-    subject{ Foo.new }
+    subject do
+      Class.new do
+        include Memoist2
+
+        def question?
+          @question_calls ||= 0
+          @question_calls += 1
+        end
+        memoize :question?
+
+        def bang!
+          @bang_calls ||= 0
+          @bang_calls += 1
+        end
+        memoize :bang!
+
+      end.new
+    end
 
     it "can memoize question methods" do
-      subject.question?.should == subject.question?
+      5.times do
+        subject.question?.should == 1
+      end
     end
 
     it "can memoize bang methods" do
-      subject.bang!.should == subject.bang!
+      5.times do
+        subject.bang!.should == 1
+      end
     end
   end
 end
