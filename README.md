@@ -11,7 +11,7 @@ Example
 Memoize an instance method
 
   class Foo
-    extend Memoist2
+    include Memoist2
 
     def bar
       sleep 1 && 2**10
@@ -23,7 +23,7 @@ Memoize a class method
 
   class Foo
     class << self
-      extend Memoist2
+      include Memoist2
 
       def bar
         # something expensive

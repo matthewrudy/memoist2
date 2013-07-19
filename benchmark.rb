@@ -20,7 +20,7 @@ require 'memoist2'
 TIMES = 10_000_000
 
 class MyClass
-  extend Memoist2
+  include Memoist2
 
   def raw
     (2**10)**2 # something mildly difficult

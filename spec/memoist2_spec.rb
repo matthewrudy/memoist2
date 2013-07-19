@@ -3,7 +3,7 @@ require 'memoist2'
 describe Memoist2 do
 
   class Foo
-    extend Memoist2
+    include Memoist2
 
     def initialize
       @counter = 0
@@ -38,7 +38,7 @@ describe Memoist2 do
     end
 
     class << self
-      extend Memoist2
+      include Memoist2
 
       def bar
         @bar_count ||= 0
