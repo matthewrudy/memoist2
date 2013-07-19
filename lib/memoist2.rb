@@ -9,7 +9,7 @@ module Memoist2
     memoized_module = Module.new do
       module_eval <<-EVAL
         def #{method_name}
-          if !defined?(#{memoized_ivar}) || #{memoized_ivar}.empty?
+          unless #{memoized_ivar}
             #{memoized_ivar} = [super]
           end
           #{memoized_ivar}[0]
