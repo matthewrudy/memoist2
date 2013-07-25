@@ -23,25 +23,25 @@ Example
 
 Memoize an instance method
 
-  class Foo
-    include Memoist2
-
-    def bar
-      sleep 1 && 2**10
+    class Foo
+      include Memoist2
+  
+      def bar
+        sleep 1 && 2**10
+      end
+      memoize :bar
     end
-    memoize :bar
-  end
 
 Memoize a class method
 
-  class Foo
-    include Memoist2
-
-    def self.bar
-      # something expensive
+    class Foo
+      include Memoist2
+  
+      def self.bar
+        # something expensive
+      end
+      memoize_class_method :bar
     end
-    memoize_class_method :bar
-  end
 
 Licence
 -------
