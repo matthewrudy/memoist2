@@ -49,6 +49,7 @@ describe Memoist2 do
           count!
           :bar
         end
+
         memoize :foo
       end.new
     end
@@ -85,6 +86,119 @@ describe Memoist2 do
 
       subject.counter.should == 2
     end
+
+    describe 'arguments' do
+      subject do
+        Class.new(Counter) do
+          include Memoist2
+
+          def foo(a)
+            count!
+            a
+          end
+
+          def foo_default(a = :bar)
+            count!
+            a
+          end
+
+          def foo_combo(a, b = :bar, *args)
+            count!
+            [a, b, args]
+          end
+
+          def foo_keyword(a: :bar, b: :bar)
+            count!
+            [a, b]
+          end
+
+          memoize :foo, :foo_default, :foo_combo, :foo_keyword
+        end.new
+      end
+
+      it 'memoizes arguments correctly' do
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo(arg).should == arg }
+          end.to change{ subject.counter }.by(1)
+        end
+      end
+
+      it 'memoizes default arguments correctly' do
+        # No argument
+        expect do
+          5.times { subject.foo_default.should == :bar }
+        end.to change{ subject.counter }.by(1)
+
+        # Argument set to default
+        expect do
+          5.times { subject.foo_default(:bar).should == :bar }
+        end.to change{ subject.counter }.by(1)
+
+        # Argument given
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo_default(arg).should == arg }
+          end.to change{ subject.counter }.by(1)
+        end
+      end
+
+      it 'handles a mixed case' do
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo_combo(arg).should == [arg, :bar, []] }
+          end.to change{ subject.counter }.by(1)
+        end
+
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo_combo(arg, arg).should == [arg, arg, []] }
+          end.to change{ subject.counter }.by(1)
+        end
+
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo_combo(arg, arg, arg, arg * 2).should == [arg, arg, [arg, arg * 2]] }
+          end.to change{ subject.counter }.by(1)
+        end
+      end
+
+      it 'handles keyword arguments' do
+        expect do
+          5.times { subject.foo_keyword.should == [:bar, :bar] }
+        end.to change{ subject.counter }.by(1)
+
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo_keyword(b: arg).should == [:bar, arg] }
+          end.to change{ subject.counter }.by(1)
+        end
+
+        [1, 2, 3].each do |arg|
+          expect do
+            5.times { subject.foo_keyword(a: arg*2, b: arg).should == [arg*2, arg] }
+          end.to change{ subject.counter }.by(1)
+        end
+      end
+    end
+
+
+
+    # it 'memoizes default arguments correctly' do
+    #   [1, 2, 3].each do |arg|
+    #     expect do
+    #       5.times { subject.default_arg(arg).should == arg }
+    #     end.to change{ subject.counter }.by(1)
+    #   end
+    # end
+
+    # it 'memoizes keyword arguments correctly' do
+    #   [1, 2, 3].each do |arg|
+    #     expect do
+    #       5.times { subject.keyword_arg(a: arg).should == arg }
+    #     end.to change{ subject.counter }.by(1)
+    #   end
+    # end
   end
 
   describe "class methods" do

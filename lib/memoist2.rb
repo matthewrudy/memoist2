@@ -11,11 +11,12 @@ module Memoist2
         memoized_ivar = Memoist2.memoized_ivar_for(method_name)
         memoized_module = Module.new do
           module_eval <<-EVAL
-            def #{method_name}
-              unless #{memoized_ivar}
-                #{memoized_ivar} = [super]
+            def #{method_name}(*args)
+              #{memoized_ivar} ||= {}
+              unless #{memoized_ivar}[args]
+                #{memoized_ivar}[args] = [super(*args)]
               end
-              #{memoized_ivar}[0]
+              #{memoized_ivar}[args][0]
             end
 
             def self.to_s
