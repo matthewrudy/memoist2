@@ -169,11 +169,15 @@ describe Memoist2 do
       Class.new do
         include Memoist2
 
+        def initialize(bar)
+          @bar = bar
+        end
+
         def foo
           1
         end
         memoize :foo
-      end.new.freeze
+      end.new('bar').freeze
     end
 
     it "can memoize methods on frozen objects" do

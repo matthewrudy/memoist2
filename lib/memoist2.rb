@@ -11,9 +11,9 @@ module Memoist2
         memoized_ivar = Memoist2.memoized_ivar_for(method_name)
         memoized_module = Module.new do
           module_eval <<-EVAL
-            def initialize
+            def initialize(*args)
               #{memoized_ivar} = []
-              super
+              super(*args)
             end
 
             def #{method_name}
