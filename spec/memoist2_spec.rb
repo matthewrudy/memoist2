@@ -163,4 +163,23 @@ describe Memoist2 do
       end
     end
   end
+
+  describe "frozen objects" do
+    subject do
+      Class.new do
+        include Memoist2
+
+        def foo
+          1
+        end
+        memoize :foo
+      end.new.freeze
+    end
+
+    it "can memoize methods on frozen objects" do
+      5.times do
+        subject.foo.should == 1
+      end
+    end
+  end
 end
