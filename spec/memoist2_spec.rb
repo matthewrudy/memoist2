@@ -29,7 +29,7 @@ describe Memoist2 do
 
     it "returns the expected value" do
       5.times do
-        subject.nilly.should == nil
+        expect(subject.nilly).to be nil
       end
     end
 
@@ -55,7 +55,7 @@ describe Memoist2 do
 
     it "returns the expected value" do
       5.times do
-        subject.foo.should == :bar
+        expect(subject.foo).to be :bar
       end
     end
 
@@ -83,7 +83,7 @@ describe Memoist2 do
       5.times{ subject.a }
       5.times{ subject.b }
 
-      subject.counter.should == 2
+      expect(subject.counter).to be 2
     end
   end
 
@@ -105,7 +105,7 @@ describe Memoist2 do
 
       it "works" do
         5.times do
-          subject.foo.should == 1
+          expect(subject.foo).to be 1
         end
       end
     end
@@ -125,7 +125,7 @@ describe Memoist2 do
 
       it "works" do
         5.times do
-          subject.foo.should == 1
+          expect(subject.foo).to be 1
         end
       end
     end
@@ -153,13 +153,13 @@ describe Memoist2 do
 
     it "can memoize question methods" do
       5.times do
-        subject.question?.should == 1
+        expect(subject.question?).to be 1
       end
     end
 
     it "can memoize bang methods" do
       5.times do
-        subject.bang!.should == 1
+        expect(subject.bang!).to be 1
       end
     end
   end
