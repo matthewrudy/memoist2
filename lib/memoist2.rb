@@ -1,3 +1,5 @@
+require "memoist2/version"
+
 module Memoist2
 
   def self.memoized_ivar_for(symbol)
