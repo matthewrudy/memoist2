@@ -3,20 +3,24 @@ memoist2
 
 [![Build Status](https://travis-ci.org/matthewrudy/memoist2.png?branch=master)](https://travis-ci.org/matthewrudy/memoist2)
 
-Simple Memoization for Ruby 2.0
+Simple Memoization for Ruby 2.0+.
 
 ### Differences between Memoist & Memoist2
 
-Unlike [Memoist], this is **not** a drop-in replacement for old ActiveSupport::Memoizable. Memoist will still work just fine for that if you're using Ruby 2.0. This project, on the other hand, is just me playing using Module#prepend which makes this stuff very simple.
+Unlike [Memoist], this is **not** a drop-in replacement for old ActiveSupport::Memoizable. Memoist will still work just fine for that if you're using Ruby 2.0+. This project, on the other hand, is just me playing using Module#prepend which makes this stuff very simple.
 
-* Memoist works on all Rubies
-* Memoist is quite complicated
-* Memoist has the exact same api as ActiveSupport::Memoizable
-* Memoist2 only works on Ruby >= 2.0.0
-* Memoist2 is deliberately much simpler
-* Memoist2 has a slightly different API that could totally change
+**[Memoist]**
+  * Works on all Rubies.
+  * Is quite complicated.
+  * Has the exact same api as `ActiveSupport::Memoizable`.
+
+**Memoist2**
+  * Only works on `Ruby >= 2.0.0`.
+  * Is deliberately much simpler.
+  * Has a slightly different API that could totally change.
 
   [Memoist]: https://github.com/matthewrudy/memoist
+
 
 Example
 -------
